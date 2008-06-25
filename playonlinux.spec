@@ -2,7 +2,7 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	3.0.4
+Version:	3.0.7
 Release:	%mkrel 1
 License:	GPLv3
 Group:		Games/Other
