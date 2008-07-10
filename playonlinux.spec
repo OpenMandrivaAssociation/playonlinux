@@ -3,7 +3,7 @@
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
 Version:	3.0.8
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPLv3
 Group:		Games/Other
 Url:		http://www.playonlinux.com
@@ -41,11 +41,12 @@ and rescpetful of the free softwares.
 rm -rf %{buildroot}
 mkdir %{buildroot}
 mkdir -p %{buildroot}%{_bindir}/
+mkdir -p %{buildroot}%{_datadir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/desktop-directories
 mkdir -p %{buildroot}%{_datadir}/applications
 mkdir -p %{buildroot}%{_datadir}/pixmaps
 
-tar xvfz %{SOURCE0} -C %{buildroot}%{_datadir}
+cp -a * %{buildroot}%{_datadir}/%{name}
 
 install -p %{SOURCE1} %{buildroot}%{_bindir}/
 rm %{buildroot}%{_datadir}/%{name}/LICENCE
