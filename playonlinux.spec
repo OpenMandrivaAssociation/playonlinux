@@ -11,9 +11,6 @@ Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{
 Source1:	playonlinux
 BuildRequires:	python-devel
 BuildRequires:	desktop-file-utils
-Requires:	gnome-python-extras
-Requires:	pygtk2.0 >= 2.8
-Requires:	python-dbus
 Requires:	imagemagick
 Requires:	wget
 Requires:	gettext
