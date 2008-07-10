@@ -18,6 +18,8 @@ Requires:	imagemagick
 Requires:	wget
 Requires:	gettext
 Requires:	unzip
+Requires:	cabextract
+Requires:	lzma
 Requires:	xterm
 Requires:	wine
 # for ar
