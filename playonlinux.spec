@@ -20,6 +20,8 @@ Requires:	gettext
 Requires:	unzip
 Requires:	xterm
 Requires:	wine
+# for ar
+Requires:	binutils
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
