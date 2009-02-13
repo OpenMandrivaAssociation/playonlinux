@@ -3,7 +3,7 @@
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
 Version:	3.3.1
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv3
 Group:		Games/Other
 Url:		http://www.playonlinux.com
@@ -27,15 +27,16 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 PlayOnLinux is a piece of sofware which allow you to install 
-and use easily numerous games and softwares designed to run 
-with Microsoft(R)'s Windows(R).Indeed, currently, still few 
+and use easily numerous games and software designed to run 
+with Microsoft(R)'s Windows(R). Indeed, currently, still few 
 games are compatible with GNU/Linux, and it could be a factor 
-preventing from migrate to this system. PlayOnLinux brings an 
+preventing from migrating to this system. PlayOnLinux brings an 
 accessible and efficient solution to this problem, cost-free 
-and rescpetful of the free softwares.
+and respectful of the free software.
 
 %prep
 %setup -q -n %{name}
+perl -pi -e "s|python2.5|python|" python/tools/get_wineversions.py
 
 %install
 rm -rf %{buildroot}
