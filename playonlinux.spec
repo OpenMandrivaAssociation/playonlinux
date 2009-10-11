@@ -2,12 +2,12 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	3.6
+Version:	3.7
 Release:	%mkrel 1
 License:	GPLv3
 Group:		Games/Other
 Url:		http://www.playonlinux.com
-Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
+Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.bz2
 Source1:	playonlinux
 BuildRequires:	desktop-file-utils
 Requires:	wxPythonGTK
