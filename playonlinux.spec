@@ -50,7 +50,6 @@ mkdir -p %{buildroot}%{_datadir}/pixmaps
 cp -a * %{buildroot}%{_datadir}/%{name}
 
 install -p %{SOURCE1} %{buildroot}%{_bindir}/
-rm %{buildroot}%{_datadir}/%{name}/LICENCE
 cp etc/PlayOnLinux.desktop %{buildroot}%{_datadir}/applications/%{oname}.desktop
 cp  %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 cp %{buildroot}%{_datadir}/%{name}/etc/PlayOnLinux.directory %{buildroot}%{_datadir}/desktop-directories/%{oname}.directory
