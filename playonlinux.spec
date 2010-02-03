@@ -3,7 +3,7 @@
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
 Version:	3.7.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv3
 Group:		Games/Other
 Url:		http://www.playonlinux.com
@@ -19,7 +19,7 @@ Requires:	cabextract
 Requires:	lzma
 Requires:	xterm
 Requires:	wine
-Requires:	mesa-demos
+Requires:	glxinfo
 # for ar
 Requires:	binutils
 BuildArch:	noarch
