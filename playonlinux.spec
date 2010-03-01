@@ -19,7 +19,11 @@ Requires:	cabextract
 Requires:	lzma
 Requires:	xterm
 Requires:	wine
+%if %mdkversion > 201000
 Requires:	glxinfo
+%else
+Requires:	mesa-demos
+%endif
 # for ar
 Requires:	binutils
 BuildArch:	noarch
