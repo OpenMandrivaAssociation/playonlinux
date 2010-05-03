@@ -40,7 +40,6 @@ and respectful of the free software.
 
 %prep
 %setup -q -n %{name}
-perl -pi -e "s|python2.5|python|" python/tools/get_wineversions.py
 
 %install
 rm -rf %{buildroot}
@@ -61,6 +60,7 @@ cp %{buildroot}%{_datadir}/%{name}/etc/PlayOnLinux.directory %{buildroot}%{_data
 desktop-file-install \
 	--add-category="Game" \
 	--remove-category="%{oname}" \
+	--remove-key="Encoding" \
 	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*  
 
 %clean
