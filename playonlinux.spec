@@ -2,12 +2,12 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	3.8.8
+Version:	4.0.13
 Release:	%mkrel 1
 License:	GPLv3
 Group:		Games/Other
 Url:		http://www.playonlinux.com
-Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.bz2
+Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source1:	playonlinux
 BuildRequires:	desktop-file-utils
 Requires:	wxPythonGTK
@@ -30,7 +30,7 @@ BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
-PlayOnLinux is a piece of sofware which allow you to install 
+PlayOnLinux is a piece of sofware which allows you to install 
 and use easily numerous games and software designed to run 
 with Microsoft(R)'s Windows(R). Indeed, currently, still few 
 games are compatible with GNU/Linux, and it could be a factor 
