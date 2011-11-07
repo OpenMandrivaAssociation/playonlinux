@@ -26,6 +26,8 @@ Requires:	mesa-demos
 %endif
 # for ar
 Requires:	binutils
+# used to extract icons for applications, otherwise the default icon is used
+Suggests:	icoutils
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
