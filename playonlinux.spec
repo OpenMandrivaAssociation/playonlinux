@@ -2,7 +2,7 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	4.0.14
+Version:	4.0.16
 Release:	%mkrel 1
 License:	GPLv3
 Group:		Games/Other
@@ -28,8 +28,6 @@ Requires:	mesa-demos
 Requires:	binutils
 # used to extract icons for applications, otherwise the default icon is used
 Suggests:	icoutils
-BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 PlayOnLinux is a piece of sofware which allows you to install 
@@ -44,20 +42,26 @@ and respectful of the free software.
 %setup -q -n %{name}
 
 %install
-rm -rf %{buildroot}
-mkdir %{buildroot}
-mkdir -p %{buildroot}%{_bindir}/
-mkdir -p %{buildroot}%{_datadir}/%{name}
-mkdir -p %{buildroot}%{_datadir}/desktop-directories
-mkdir -p %{buildroot}%{_datadir}/applications
-mkdir -p %{buildroot}%{_datadir}/pixmaps
+%__rm -rf %{buildroot}
+%__mkdir_p %{buildroot}
+%__mkdir_p %{buildroot}%{_bindir}/
+%__mkdir_p %{buildroot}%{_datadir}/%{name}
+%__mkdir_p %{buildroot}%{_datadir}/desktop-directories
+%__mkdir_p %{buildroot}%{_datadir}/applications
+%__mkdir_p %{buildroot}%{_datadir}/pixmaps
 
-cp -a * %{buildroot}%{_datadir}/%{name}
+%__cp -a * %{buildroot}%{_datadir}/%{name}
 
-install -p %{SOURCE1} %{buildroot}%{_bindir}/
-cp etc/PlayOnLinux.desktop %{buildroot}%{_datadir}/applications/%{oname}.desktop
-cp  %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
-cp %{buildroot}%{_datadir}/%{name}/etc/PlayOnLinux.directory %{buildroot}%{_datadir}/desktop-directories/%{oname}.directory
+%ifarch x86_64
+%__rm -rf %{buildroot}%{_datadir}/%{name}/bin/*x86
+%else
+%__rm -rf %{buildroot}%{_datadir}/%{name}/bin/*amd64
+%endif
+
+%__install -p %{SOURCE1} %{buildroot}%{_bindir}/
+%__cp etc/PlayOnLinux.desktop %{buildroot}%{_datadir}/applications/%{oname}.desktop
+%__cp  %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
+%__cp %{buildroot}%{_datadir}/%{name}/etc/PlayOnLinux.directory %{buildroot}%{_datadir}/desktop-directories/%{oname}.directory
 
 desktop-file-install \
 	--add-category="Game" \
@@ -66,10 +70,9 @@ desktop-file-install \
 	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*  
 
 %clean
-rm -rf %{buildroot}
+%__rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root)
 %doc LICENCE CHANGELOG
 %{_bindir}/%{name}
 %{_datadir}/%{name}
