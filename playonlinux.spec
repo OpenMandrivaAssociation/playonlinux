@@ -2,13 +2,16 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	4.0.16
+Version:	4.0.17
 Release:	%mkrel 1
 License:	GPLv3
 Group:		Games/Other
 Url:		http://www.playonlinux.com
 Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
-Source1:	playonlinux
+Source1:	playonlinux.bin
+Patch0:		PlayOnLinux_4.0.17-disable-update.patch
+Patch1:		PlayOnLinux_4.0.17-disable-GL-checks.patch
+Patch2:		PlayOnLinux_4.0.17-use-systemwide-locales-path.patch
 BuildRequires:	desktop-file-utils
 Requires:	wxPythonGTK
 Requires:	imagemagick
@@ -28,6 +31,7 @@ Requires:	mesa-demos
 Requires:	binutils
 # used to extract icons for applications, otherwise the default icon is used
 Suggests:	icoutils
+ExclusiveArch:	%{ix86}
 
 %description
 PlayOnLinux is a piece of sofware which allows you to install 
@@ -40,40 +44,52 @@ and respectful of the free software.
 
 %prep
 %setup -q -n %{name}
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %install
 %__rm -rf %{buildroot}
 %__mkdir_p %{buildroot}
-%__mkdir_p %{buildroot}%{_bindir}/
+%__mkdir_p %{buildroot}%{_sysconfdir}/xdg/menus/applications-merged
+%__mkdir_p %{buildroot}%{_bindir}
 %__mkdir_p %{buildroot}%{_datadir}/%{name}
 %__mkdir_p %{buildroot}%{_datadir}/desktop-directories
 %__mkdir_p %{buildroot}%{_datadir}/applications
 %__mkdir_p %{buildroot}%{_datadir}/pixmaps
 
 %__cp -a * %{buildroot}%{_datadir}/%{name}
+%__cp etc/*.menu %{buildroot}%{_sysconfdir}/xdg/menus/applications-merged
+%__install -p %{SOURCE1} %{buildroot}%{_bindir}/%{name}
 
-%ifarch x86_64
-%__rm -rf %{buildroot}%{_datadir}/%{name}/bin/*x86
-%else
-%__rm -rf %{buildroot}%{_datadir}/%{name}/bin/*amd64
-%endif
-
-%__install -p %{SOURCE1} %{buildroot}%{_bindir}/
 %__cp etc/PlayOnLinux.desktop %{buildroot}%{_datadir}/applications/%{oname}.desktop
-%__cp  %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
+%__cp %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 %__cp %{buildroot}%{_datadir}/%{name}/etc/PlayOnLinux.directory %{buildroot}%{_datadir}/desktop-directories/%{oname}.directory
 
 desktop-file-install \
 	--add-category="Game" \
 	--remove-category="%{oname}" \
 	--remove-key="Encoding" \
-	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*  
+	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
+
+# (tpg) useless stuff
+%__rm -rf %{buildroot}%{_datadir}/%{name}/bin
+%__rm -rf %{buildroot}%{_datadir}/%{name}/src
+%__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.menu
+%__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.desktop
+%__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.directory
+%__rm -rf %{buildroot}%{_datadir}/%{name}/lang/po
+%__rm -rf %{buildroot}%{_datadir}/%{name}/CHANGELOG
+%__rm -rf %{buildroot}%{_datadir}/%{name}/playonmac
+
+%find_lang pol %{name}.lang
 
 %clean
 %__rm -rf %{buildroot}
 
-%files
+%files -f %{name}.lang
 %doc LICENCE CHANGELOG
+%{_sysconfdir}/xdg/menus/applications-merged/%{name}*.menu
 %{_bindir}/%{name}
 %{_datadir}/%{name}
 %{_datadir}/applications/%{oname}.desktop
