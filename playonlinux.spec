@@ -78,7 +78,7 @@ desktop-file-install \
 %__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.menu
 %__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.desktop
 %__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.directory
-%__rm -rf %{buildroot}%{_datadir}/%{name}/lang/po
+%__rm -rf %{buildroot}%{_datadir}/%{name}/lang
 %__rm -rf %{buildroot}%{_datadir}/%{name}/CHANGELOG
 %__rm -rf %{buildroot}%{_datadir}/%{name}/playonmac
 
