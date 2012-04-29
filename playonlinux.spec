@@ -82,7 +82,7 @@ desktop-file-install \
 %__rm -rf %{buildroot}%{_datadir}/%{name}/CHANGELOG
 %__rm -rf %{buildroot}%{_datadir}/%{name}/playonmac
 
-%find_lang pol %{name}.lang
+%find_lang pol pol.lang
 
 %clean
 %__rm -rf %{buildroot}
