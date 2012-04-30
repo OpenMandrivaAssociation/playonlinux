@@ -73,7 +73,7 @@ desktop-file-install \
 	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
 
 %__mkdir_p %{buildroot}%{_datadir}/locale
-%__cp -r lang/locale/* %{buildroot}%{_datadir}/locale/
+%__cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
 
 # (tpg) useless stuff
 %__rm -rf %{buildroot}%{_datadir}/%{name}/bin
