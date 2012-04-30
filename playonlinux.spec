@@ -3,14 +3,14 @@
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
 Version:	4.0.18
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv3
 Group:		Games/Other
 Url:		http://www.playonlinux.com
 Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source1:	playonlinux.bin
 Patch0:		PlayOnLinux_4.0.17-disable-update.patch
-Patch1:		PlayOnLinux_4.0.17-disable-GL-checks.patch
+Patch1:		PlayOnLinux_4.0.18-disable-GL-checks.patch
 Patch2:		PlayOnLinux_4.0.17-use-systemwide-locales-path.patch
 BuildRequires:	desktop-file-utils
 Requires:	wxPythonGTK
