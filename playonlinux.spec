@@ -31,7 +31,7 @@ Requires:	mesa-demos
 Requires:	binutils
 # used to extract icons for applications, otherwise the default icon is used
 Suggests:	icoutils
-ExclusiveArch:	%{ix86}
+BuildArch:	noarch
 
 %description
 PlayOnLinux is a piece of sofware which allows you to install 
@@ -72,6 +72,9 @@ desktop-file-install \
 	--remove-key="Encoding" \
 	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
 
+%__mkdir_p %{buildroot}%{_datadir}/locale
+%__cp -r lang/locale/* %{buildroot}%{_datadir}/locale/
+
 # (tpg) useless stuff
 %__rm -rf %{buildroot}%{_datadir}/%{name}/bin
 %__rm -rf %{buildroot}%{_datadir}/%{name}/src
@@ -82,12 +85,12 @@ desktop-file-install \
 %__rm -rf %{buildroot}%{_datadir}/%{name}/CHANGELOG
 %__rm -rf %{buildroot}%{_datadir}/%{name}/playonmac
 
-%find_lang pol pol.lang
+%find_lang pol
 
 %clean
 %__rm -rf %{buildroot}
 
-%files -f %{name}.lang
+%files -f pol.lang
 %doc LICENCE CHANGELOG
 %{_sysconfdir}/xdg/menus/applications-merged/%{name}*.menu
 %{_bindir}/%{name}
@@ -95,3 +98,4 @@ desktop-file-install \
 %{_datadir}/applications/%{oname}.desktop
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/desktop-directories/%{oname}.directory
+
