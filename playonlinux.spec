@@ -58,13 +58,13 @@ and respectful of the free software.
 %__mkdir_p %{buildroot}%{_datadir}/applications
 %__mkdir_p %{buildroot}%{_datadir}/pixmaps
 
-%__cp -a * %{buildroot}%{_datadir}/%{name}
-%__cp etc/*.menu %{buildroot}%{_sysconfdir}/xdg/menus/applications-merged
+cp -a * %{buildroot}%{_datadir}/%{name}
+cp etc/*.menu %{buildroot}%{_sysconfdir}/xdg/menus/applications-merged
 %__install -p %{SOURCE1} %{buildroot}%{_bindir}/%{name}
 
-%__cp etc/PlayOnLinux.desktop %{buildroot}%{_datadir}/applications/%{oname}.desktop
-%__cp %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
-%__cp %{buildroot}%{_datadir}/%{name}/etc/PlayOnLinux.directory %{buildroot}%{_datadir}/desktop-directories/%{oname}.directory
+cp etc/PlayOnLinux.desktop %{buildroot}%{_datadir}/applications/%{oname}.desktop
+cp %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
+cp %{buildroot}%{_datadir}/%{name}/etc/PlayOnLinux.directory %{buildroot}%{_datadir}/desktop-directories/%{oname}.directory
 
 desktop-file-install \
 	--add-category="Game" \
@@ -73,7 +73,7 @@ desktop-file-install \
 	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
 
 %__mkdir_p %{buildroot}%{_datadir}/locale
-%__cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
+cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
 
 # (tpg) useless stuff
 %__rm -rf %{buildroot}%{_datadir}/%{name}/bin
