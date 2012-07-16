@@ -2,8 +2,8 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	4.0.18
-Release:	%mkrel 2
+Version:	4.1.1
+Release:	1
 License:	GPLv3
 Group:		Games/Other
 Url:		http://www.playonlinux.com
@@ -45,7 +45,7 @@ and respectful of the free software.
 %prep
 %setup -q -n %{name}
 %patch0 -p1
-%patch1 -p1
+#%patch1 -p1
 %patch2 -p1
 
 %install
@@ -86,9 +86,6 @@ cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
 %__rm -rf %{buildroot}%{_datadir}/%{name}/playonmac
 
 %find_lang pol
-
-%clean
-%__rm -rf %{buildroot}
 
 %files -f pol.lang
 %doc LICENCE CHANGELOG
