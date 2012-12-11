@@ -1,16 +1,18 @@
-%define oname PlayOnLinux
+%define	oname	PlayOnLinux
 
-Summary:	Play your Windows games on Linux
+Summary:		Play your Windows games on Linux
 Name:		playonlinux
-Version:	4.1.8
-Release:	%mkrel 1
-License:	GPLv3
+Version:		4.1.8
+Release:		1
+License:		GPLv3
 Group:		Games/Other
 Url:		http://www.playonlinux.com
-Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
-Source1:	playonlinux
-Patch0:         %{oname}_4.1.6-disable-GL-checks.patch
-Patch1:		%{oname}_4.1.6-fix-desktop-file.patch
+Source0:		http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
+Source1:		playonlinux.bin
+Patch0:		%{oname}_4.0.17-disable-update.patch
+Patch1:		%{oname}-4.1.6-disable-GL-checks.patch
+Patch2:		%{oname}-4.1.6-use-systemwide-locales-path.patch
+Patch3:		%{oname}-4.1.6-fix-desktop-file.patch
 BuildRequires:	desktop-file-utils
 Requires:	wxPythonGTK
 Requires:	imagemagick
@@ -18,17 +20,19 @@ Requires:	wget
 Requires:	gettext
 Requires:	unzip
 Requires:	cabextract
-Requires:	xz
+Requires:	lzma
 Requires:	xterm
-%ifarch x86_64
-Requires:	wine64
-%else
 Requires:	wine-full
-%endif
+%if %{mdkversion} > 201000
 Requires:	glxinfo
-Requires:       icoutils
+%else
+Requires:	mesa-demos
+%endif
 # for ar
 Requires:	binutils
+# used to extract icons for applications, otherwise the default icon is used
+Suggests:	icoutils >= 0.29
+BuildArch:	noarch
 
 %description
 PlayOnLinux is a piece of sofware which allows you to install 
@@ -41,29 +45,53 @@ and respectful of the free software.
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1
+# (gvm) Why disable the updgrade notice?
+#patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %install
-mkdir -p %{buildroot}%{_bindir}/
-mkdir -p %{buildroot}%{_datadir}/%{name}
-mkdir -p %{buildroot}%{_datadir}/desktop-directories
-mkdir -p %{buildroot}%{_datadir}/applications
-mkdir -p %{buildroot}%{_datadir}/pixmaps
+%__rm -rf %{buildroot}
+%__mkdir_p %{buildroot}
+%__mkdir_p %{buildroot}%{_sysconfdir}/xdg/menus/applications-merged
+%__mkdir_p %{buildroot}%{_bindir}
+%__mkdir_p %{buildroot}%{_datadir}/%{name}
+%__mkdir_p %{buildroot}%{_datadir}/desktop-directories
+%__mkdir_p %{buildroot}%{_datadir}/applications
+%__mkdir_p %{buildroot}%{_datadir}/pixmaps
 
 cp -a * %{buildroot}%{_datadir}/%{name}
-rm -rf %{buildroot}%{_datadir}/%{name}/bin/
+cp etc/*.menu %{buildroot}%{_sysconfdir}/xdg/menus/applications-merged
+%__install -p %{SOURCE1} %{buildroot}%{_bindir}/%{name}
 
-install -p %{SOURCE1} %{buildroot}%{_bindir}/
 cp etc/PlayOnLinux.desktop %{buildroot}%{_datadir}/applications/%{oname}.desktop
-cp  %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
+cp %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 cp %{buildroot}%{_datadir}/%{name}/etc/PlayOnLinux.directory %{buildroot}%{_datadir}/desktop-directories/%{oname}.directory
 
 desktop-file-install \
-	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*  
+	--remove-category="%{oname}" \
+	--remove-key="Encoding" \
+	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
 
-%files
+%__mkdir_p %{buildroot}%{_datadir}/locale
+cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
+
+# (tpg) useless stuff
+%__rm -rf %{buildroot}%{_datadir}/%{name}/bin
+%__rm -rf %{buildroot}%{_datadir}/%{name}/src
+%__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.menu
+%__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.desktop
+%__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.directory
+%__rm -rf %{buildroot}%{_datadir}/%{name}/lang
+%__rm -rf %{buildroot}%{_datadir}/%{name}/CHANGELOG
+%__rm -rf %{buildroot}%{_datadir}/%{name}/playonmac
+
+%find_lang pol
+
+%files -f pol.lang
 %doc LICENCE CHANGELOG
+%{_sysconfdir}/xdg/menus/applications-merged/%{name}*.menu
 %{_bindir}/%{name}
 %{_datadir}/%{name}
 %{_datadir}/applications/%{oname}.desktop
@@ -71,73 +99,182 @@ desktop-file-install \
 %{_datadir}/desktop-directories/%{oname}.directory
 
 
+
 %changelog
+* Mon Jul 16 2012 Alexander Khrukin <akhrukin@mandriva.org> 4.1.1-1
++ Revision: 809795
+- version update 4.1.1
 
-* Tue Oct 02 2012 tv <tv> 4.1.8-1.mga3
-+ Revision: 302226
+* Mon Apr 30 2012 Andrey Bondrov <abondrov@mandriva.org> 4.0.18-2
++ Revision: 794582
+- Update gl-checks patch to fix POL start in 64 bit OS
+
+* Mon Apr 30 2012 Andrey Bondrov <abondrov@mandriva.org> 4.0.18-1
++ Revision: 794541
+- New version 4.0.18
+
+* Mon Apr 30 2012 Andrey Bondrov <abondrov@mandriva.org> 4.0.17-1
++ Revision: 794527
+- Don't use %%__cp anymore as it's broken in RPM5 5.4.8
+- Copy locales to make find_lang work, make it noarch package (like < 4.0.16)
+
+  + Tomasz Pawel Gajc <tpg@mandriva.org>
+    - fix find_lang macro
+    - update to new version 4.0.17
+    - Patch0: disable info about available updates
+    - Patch1: disable check on GL libraries
+    - Patch2: search for localisation files on systemwide directory
+    - remove lot of useless stuff after the installation
+    - provide applications-merged menu
+    - make use of %%find_lang
+
+* Thu Mar 22 2012 Andrey Bondrov <abondrov@mandriva.org> 4.0.16-1
++ Revision: 786002
+- New version 4.0.16, no longer noarch package
+
+* Thu Dec 15 2011 Alexander Khrukin <akhrukin@mandriva.org> 4.0.14-1
++ Revision: 741674
+- version update 4.0.14
+
+* Mon Nov 07 2011 Andrey Bondrov <abondrov@mandriva.org> 4.0.13-2
++ Revision: 723975
+- Suggest icoutils - used to extract icons for installed applications
+
+* Sun Nov 06 2011 Andrey Bondrov <abondrov@mandriva.org> 4.0.13-1
++ Revision: 722813
+- New version 4.0.13
+
+* Tue Feb 15 2011 Tomasz Pawel Gajc <tpg@mandriva.org> 3.8.8-1
++ Revision: 637862
+- update to new version 3.8.8
+
+* Thu Dec 02 2010 Stéphane Téletchéa <steletch@mandriva.org> 3.8.6-1mdv2011.0
++ Revision: 604687
+- Update to new version 3.8.6
+
+* Sat Nov 27 2010 Tomasz Pawel Gajc <tpg@mandriva.org> 3.8.5-1mdv2011.0
++ Revision: 601904
+- update to new version 3.8.5
+
+* Wed Oct 06 2010 Thierry Vignaud <tv@mandriva.org> 3.8.3-2mdv2011.0
++ Revision: 583153
+- require wine-full instead of wine
+
+* Thu Sep 30 2010 Thierry Vignaud <tv@mandriva.org> 3.8.3-1mdv2011.0
++ Revision: 582197
 - new release
-- require xz instead of lzma
 
-* Sun Aug 19 2012 stormi <stormi> 4.1.6-1.mga3
-+ Revision: 282291
-- fix disable-GL-checks patch again
-- add patch to fix desktop file
-- rediff disable-GL-checks patch
-- new version 4.1.6
+* Sun Jul 11 2010 Tomasz Pawel Gajc <tpg@mandriva.org> 3.7.6-1mdv2011.0
++ Revision: 550985
+- update to new version 3.7.6
 
-* Sat Aug 04 2012 tv <tv> 4.1.3-4.mga3
-+ Revision: 278478
-- seems to be 64bit friendly now
+  + Ahmad Samir <ahmadsamir@mandriva.org>
+    - clean spec and .desktop file
 
-* Wed Aug 01 2012 tv <tv> 4.1.3-3.mga3
-+ Revision: 277680
-- make it installable with wine64
+* Mon Mar 01 2010 Tomasz Pawel Gajc <tpg@mandriva.org> 3.7.3-3mdv2010.1
++ Revision: 513266
+- require mesa-demos on distributions older than 2010.1
+- revert my last commit (use wine instead of wine64 on x86_64)
 
-* Sun Jul 29 2012 dmorgan <dmorgan> 4.1.3-2.mga3
-+ Revision: 275814
-- Add icoutils as Requires
+* Thu Feb 25 2010 Tomasz Pawel Gajc <tpg@mandriva.org> 3.7.3-2mdv2010.1
++ Revision: 510839
+- require wine64 on other arch than x86
 
-* Sun Jul 22 2012 dmorgan <dmorgan> 4.1.3-1.mga3
-+ Revision: 273571
-- New version
+* Tue Feb 16 2010 Frederik Himpe <fhimpe@mandriva.org> 3.7.3-1mdv2010.1
++ Revision: 506860
+- update to new version 3.7.3
 
-* Tue Jun 26 2012 dams <dams> 4.1.2-1.mga3
-+ Revision: 264003
-- new version 4.1.2
-- rediff patch
-- clean specfile
+* Wed Feb 03 2010 Thierry Vignaud <tv@mandriva.org> 3.7.2-2mdv2010.1
++ Revision: 499986
+- requires glxinfo instead of mesa-demos
 
-* Tue Mar 06 2012 pterjan <pterjan> 4.0.15-2.mga2
-+ Revision: 220557
-- Drop the GL check binaries and use Debian patch to not call them
+* Sun Jan 24 2010 Tomasz Pawel Gajc <tpg@mandriva.org> 3.7.2-1mdv2010.1
++ Revision: 495607
+- update to new version 3.7.2
+- do not remove the LICENCE file (mdvbz #56517)
 
-* Sun Mar 04 2012 stormi <stormi> 4.0.15-1.mga2
-+ Revision: 218248
-- new version 4.0.15
+* Wed Nov 11 2009 Frederik Himpe <fhimpe@mandriva.org> 3.7.1-1mdv2010.1
++ Revision: 464816
+- update to new version 3.7.1
 
-* Sun Jan 29 2012 stormi <stormi> 4.0.14-1.mga2
-+ Revision: 202906
-- new version 4.0.14
+* Sun Oct 11 2009 Zombie Ryushu <ryushu@mandriva.org> 3.7-1mdv2010.1
++ Revision: 456673
+- Upgrade to 3.7
 
-* Sat Jan 28 2012 tv <tv> 4.0.13-2.mga2
-+ Revision: 202547
-- rebuild for missing packages
+* Thu Jul 09 2009 Frederik Himpe <fhimpe@mandriva.org> 3.6-1mdv2010.0
++ Revision: 394017
+- update to new version 3.6
 
-* Sun Oct 23 2011 stormi <stormi> 4.0.13-1.mga2
-+ Revision: 157541
-- update to version 4.0.13
+* Sat May 09 2009 Tomasz Pawel Gajc <tpg@mandriva.org> 3.5-1mdv2010.0
++ Revision: 373869
+- update to new version 3.5
 
-* Mon May 16 2011 ahmad <ahmad> 3.8.12-2.mga1
-+ Revision: 99316
-- playonlinux explicitly requires wine-full (i.e. i586 wine package), so it
-  shouldn't exist in x86_64 repos; i.e. it should be exclusive arch %%ix86
+* Sat Mar 07 2009 Tomasz Pawel Gajc <tpg@mandriva.org> 3.4-1mdv2009.1
++ Revision: 351817
+- update to new version 3.4
 
-* Fri Mar 11 2011 stormi <stormi> 3.8.12-1.mga1
-+ Revision: 68233
-- new version 3.8.12
+* Fri Feb 13 2009 Guillaume Bedot <littletux@mandriva.org> 3.3.1-2mdv2009.1
++ Revision: 340055
+- Make pol installable again
+- Fix description
 
-* Fri Mar 11 2011 stormi <stormi> 3.8.8-2.mga1
-+ Revision: 68228
-- clean spec
-- imported package playonlinux
+* Mon Feb 02 2009 Tomasz Pawel Gajc <tpg@mandriva.org> 3.3.1-1mdv2009.1
++ Revision: 336455
+- update to new version 3.3.1
+
+* Mon Jan 26 2009 Tomasz Pawel Gajc <tpg@mandriva.org> 3.3-1mdv2009.1
++ Revision: 333868
+- update to new version 3.3
+
+* Mon Dec 29 2008 Tomasz Pawel Gajc <tpg@mandriva.org> 3.2.2-2mdv2009.1
++ Revision: 320803
+- rebuild for new python
+
+* Mon Dec 15 2008 Tomasz Pawel Gajc <tpg@mandriva.org> 3.2.2-1mdv2009.1
++ Revision: 314396
+- update to new version 3.2.2
+
+* Sun Nov 30 2008 Emmanuel Andry <eandry@mandriva.org> 3.2.1-1mdv2009.1
++ Revision: 308522
+- New version (bugfix)
+
+* Sat Nov 29 2008 Tomasz Pawel Gajc <tpg@mandriva.org> 3.2-1mdv2009.1
++ Revision: 308015
+- update to new version 3.2
+
+* Tue Nov 11 2008 Emmanuel Andry <eandry@mandriva.org> 3.1.3-1mdv2009.1
++ Revision: 302278
+- update to new version 3.1.3
+
+* Mon Oct 20 2008 Tomasz Pawel Gajc <tpg@mandriva.org> 3.1.2-1mdv2009.1
++ Revision: 295743
+- update to new version 3.1.2
+- fix executable script
+
+* Thu Jul 10 2008 Olivier Blin <blino@mandriva.org> 3.0.8-3mdv2009.0
++ Revision: 233490
+- do not untar the main source two times
+- improve helper (use sh, do not fork, keep return code)
+- python-devel is not required to build
+- require wxPythonGTK
+- gnome-python-extras/pygtk2.0/python-dbus are not used anymore
+
+* Thu Jul 10 2008 Olivier Blin <blino@mandriva.org> 3.0.8-2mdv2009.0
++ Revision: 233481
+- require mesa-demos (for glxinfo)
+- require cabextract and lzma
+- require binutils for ar
+
+* Thu Jul 03 2008 Tomasz Pawel Gajc <tpg@mandriva.org> 3.0.8-1mdv2009.0
++ Revision: 231165
+- update to new version 3.0.8
+
+* Wed Jun 25 2008 Tomasz Pawel Gajc <tpg@mandriva.org> 3.0.7-1mdv2009.0
++ Revision: 228894
+- update to new version 3.0.7
+
+* Mon Jun 16 2008 Tomasz Pawel Gajc <tpg@mandriva.org> 3.0.4-1mdv2009.0
++ Revision: 219635
+- add source and spec file
+- Created package structure for playonlinux.
 

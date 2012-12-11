@@ -1,0 +1,15 @@
+diff -rupN playonlinux.old/etc/PlayOnLinux.desktop playonlinux/etc/PlayOnLinux.desktop
+--- playonlinux.old/etc/PlayOnLinux.desktop	2012-08-05 21:45:45.000000000 +0200
++++ playonlinux/etc/PlayOnLinux.desktop	2012-08-08 19:44:13.000000000 +0200
+@@ -2,8 +2,8 @@
+ Version=1.0
+ Encoding=UTF-8
+ Name=PlayOnLinux
+-Comment=PlayOnLinux
+-Type=Application %F
++Comment=A programs and games install manager for Wine
++Type=Application
+ Exec=playonlinux
+ Icon=/usr/share/playonlinux/etc/playonlinux.png
+-Categories=Application;Game
++Categories=Game;
