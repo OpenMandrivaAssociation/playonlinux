@@ -2,7 +2,7 @@
 
 Summary:		Play your Windows games on Linux
 Name:		playonlinux
-Version:		4.1.8
+Version:		4.1.9
 Release:		1
 License:		GPLv3
 Group:		Games/Other
