@@ -22,7 +22,7 @@ Requires:	unzip
 Requires:	cabextract
 Requires:	lzma
 Requires:	xterm
-Requires:	wine-full
+Requires:	wine
 %if %{mdkversion} > 201000
 Requires:	glxinfo
 %else
