@@ -1,18 +1,18 @@
 %define	oname	PlayOnLinux
 
-Summary:		Play your Windows games on Linux
+Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:		4.1.9
-Release:		2
-License:		GPLv3
+Version:	4.2.1
+Release:	3
+License:	GPLv3
 Group:		Games/Other
 Url:		http://www.playonlinux.com
-Source0:		http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
-Source1:		playonlinux.bin
+Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
+Source1:	playonlinux.bin
 Patch0:		%{oname}_4.0.17-disable-update.patch
 Patch1:		%{oname}-4.1.6-disable-GL-checks.patch
 Patch2:		%{oname}-4.1.6-use-systemwide-locales-path.patch
-Patch3:		%{oname}-4.1.6-fix-desktop-file.patch
+Patch3:		%{oname}-4.2.1-fix-desktop-file.patch
 BuildRequires:	desktop-file-utils
 Requires:	wxPythonGTK
 Requires:	imagemagick
@@ -22,7 +22,7 @@ Requires:	unzip
 Requires:	cabextract
 Requires:	lzma
 Requires:	xterm
-Requires:	wine
+Requires:	wine-bin
 %if %{mdkversion} > 201000
 Requires:	glxinfo
 %else
@@ -30,18 +30,20 @@ Requires:	mesa-demos
 %endif
 # for ar
 Requires:	binutils
+# http://bugs.rosalinux.ru/show_bug.cgi?id=2208
+Requires:	p7zip
 # used to extract icons for applications, otherwise the default icon is used
 Suggests:	icoutils >= 0.29
 BuildArch:	noarch
 
 %description
-PlayOnLinux is a piece of sofware which allows you to install 
-and use easily numerous games and software designed to run 
-with Microsoft(R)'s Windows(R). Indeed, currently, still few 
-games are compatible with GNU/Linux, and it could be a factor 
-preventing from migrating to this system. PlayOnLinux brings an 
-accessible and efficient solution to this problem, cost-free 
-and respectful of the free software.
+PlayOnLinux is a piece of sofware which allows you to install and use easily
+numerous games and software designed to run with Microsoft(R)'s Windows(R).
+Indeed, currently, still few games are compatible with GNU/Linux, and it could
+be a factor preventing from migrating to this system. PlayOnLinux brings an 
+accessible and efficient solution to this problem, cost-free and respectful of
+the free software.
+
 
 %prep
 %setup -q -n %{name}
@@ -52,30 +54,35 @@ and respectful of the free software.
 %patch3 -p1
 
 %install
-%__rm -rf %{buildroot}
-%__mkdir_p %{buildroot}
+# Prepare the needed dirs
 %__mkdir_p %{buildroot}%{_sysconfdir}/xdg/menus/applications-merged
 %__mkdir_p %{buildroot}%{_bindir}
 %__mkdir_p %{buildroot}%{_datadir}/%{name}
 %__mkdir_p %{buildroot}%{_datadir}/desktop-directories
 %__mkdir_p %{buildroot}%{_datadir}/applications
 %__mkdir_p %{buildroot}%{_datadir}/pixmaps
+%__mkdir_p %{buildroot}%{_datadir}/locale
 
+# Add exec perms to files lacking them and kill other rpmlint warnings
+chmod +x python/lib/irc.py python/gui_server.py bash/startup_after_server bash/read_pc_cd
+chmod +x tests/bash/test-versionlower tests/python/test_versionlower.py
+
+# Copy all in the dest dir
 cp -a * %{buildroot}%{_datadir}/%{name}
-cp etc/*.menu %{buildroot}%{_sysconfdir}/xdg/menus/applications-merged
-%__install -p %{SOURCE1} %{buildroot}%{_bindir}/%{name}
 
-cp etc/PlayOnLinux.desktop %{buildroot}%{_datadir}/applications/%{oname}.desktop
+# Move the needed bits in their right place
+%__install -p %{SOURCE1} %{buildroot}%{_bindir}/%{name}
+cp etc/*.menu %{buildroot}%{_sysconfdir}/xdg/menus/applications-merged
+cp etc/%{oname}.desktop %{buildroot}%{_datadir}/applications/%{oname}.desktop
 cp %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
-cp %{buildroot}%{_datadir}/%{name}/etc/PlayOnLinux.directory %{buildroot}%{_datadir}/desktop-directories/%{oname}.directory
+cp %{buildroot}%{_datadir}/%{name}/etc/%{oname}.directory %{buildroot}%{_datadir}/desktop-directories/%{oname}.directory
+cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
 
 desktop-file-install \
+	--add-category="Game" \
 	--remove-category="%{oname}" \
 	--remove-key="Encoding" \
 	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
-
-%__mkdir_p %{buildroot}%{_datadir}/locale
-cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
 
 # (tpg) useless stuff
 %__rm -rf %{buildroot}%{_datadir}/%{name}/bin
@@ -83,6 +90,8 @@ cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
 %__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.menu
 %__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.desktop
 %__rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.directory
+rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.applescript
+rm -rf %{buildroot}%{_datadir}/%{name}/etc/*.icns
 %__rm -rf %{buildroot}%{_datadir}/%{name}/lang
 %__rm -rf %{buildroot}%{_datadir}/%{name}/CHANGELOG
 %__rm -rf %{buildroot}%{_datadir}/%{name}/playonmac
@@ -101,6 +110,21 @@ cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
 
 
 %changelog
+* Mon May 06 2013 Giovanni Mariani <mc2374@mclink.it> 4.2.1-2
+- Fixed P3 (and, while at it, remade the Comment in it)
+
+* Tue Apr 09 2013 Giovanni Mariani <mc2374@mclink.it> 4.2.1-1
+- New version 4.2.1
+
+* Tue Mar 26 2013 Giovanni Mariani <mc2374@mclink.it> 4.2-2
+- Really fix Requires for wine
+
+* Sun Mar 24 2013 Giovanni Mariani <mc2374@mclink.it> 4.2-1
+- New version 4.2
+
+* Mon Jan 21 2013 Giovanni Mariani <mc2374@mclink.it> 4.1.9-1
+- New version 4.1.9
+
 * Mon Jul 16 2012 Alexander Khrukin <akhrukin@mandriva.org> 4.1.1-1
 + Revision: 809795
 - version update 4.1.1
@@ -276,5 +300,4 @@ cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
 * Mon Jun 16 2008 Tomasz Pawel Gajc <tpg@mandriva.org> 3.0.4-1mdv2009.0
 + Revision: 219635
 - add source and spec file
-- Created package structure for playonlinux.
-
+- Created package structure for playonlinux. 
