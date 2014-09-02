@@ -14,6 +14,7 @@ Patch1:		%{oname}-4.1.6-disable-GL-checks.patch
 Patch2:		%{oname}-4.1.6-use-systemwide-locales-path.patch
 Patch3:		%{oname}-4.2.1-fix-desktop-file.patch
 BuildRequires:	desktop-file-utils
+Requires:	python(abi)
 Requires:	wxPythonGTK
 Requires:	imagemagick
 Requires:	wget
