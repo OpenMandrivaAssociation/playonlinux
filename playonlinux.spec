@@ -64,7 +64,7 @@ the free software.
 %__mkdir_p %{buildroot}%{_datadir}/locale
 
 # Add exec perms to files lacking them and kill other rpmlint warnings
-chmod +x python/lib/irc.py python/gui_server.py bash/startup_after_server bash/read_pc_cd
+chmod +x python/gui_server.py bash/startup_after_server bash/read_pc_cd
 chmod +x tests/bash/test-versionlower tests/python/test_versionlower.py
 
 # Copy all in the dest dir
