@@ -2,7 +2,7 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	4.2.2
+Version:	4.2.5
 Release:	1
 License:	GPLv3+
 Group:		Games/Other
@@ -13,7 +13,6 @@ Patch0:		%{oname}_4.0.17-disable-update.patch
 Patch1:		%{oname}-4.1.6-disable-GL-checks.patch
 Patch2:		%{oname}-4.1.6-use-systemwide-locales-path.patch
 Patch3:		%{oname}-4.2.1-fix-desktop-file.patch
-BuildRequires:	desktop-file-utils
 # for ar
 Requires:	binutils
 Requires:	cabextract
@@ -28,6 +27,7 @@ Requires:	wget
 Requires:	wine-bin
 Requires:	wxPythonGTK
 Requires:	xterm
+Requires:	curl
 # used to extract icons for applications, otherwise the default icon is used
 Suggests:	icoutils >= 0.29
 BuildArch:	noarch
@@ -53,8 +53,7 @@ the free software.
 
 %prep
 %setup -q -n %{name}
-# (gvm) Why disable the updgrade notice?
-#patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -72,7 +71,6 @@ mkdir -p %{buildroot}%{_datadir}/pixmaps
 mkdir -p %{buildroot}%{_datadir}/locale
 
 # Add exec perms to files lacking them and kill other rpmlint warnings
-chmod +x python/lib/irc.py python/gui_server.py bash/startup_after_server bash/read_pc_cd
 chmod +x tests/bash/test-versionlower tests/python/test_versionlower.py
 
 # Copy all in the dest dir
@@ -85,12 +83,6 @@ cp etc/%{oname}.desktop %{buildroot}%{_datadir}/applications/%{oname}.desktop
 cp %{buildroot}%{_datadir}/%{name}/etc/%{name}.png %{buildroot}%{_datadir}/pixmaps/%{name}.png
 cp %{buildroot}%{_datadir}/%{name}/etc/%{oname}.directory %{buildroot}%{_datadir}/desktop-directories/%{oname}.directory
 cp -a lang/locale/* %{buildroot}%{_datadir}/locale/
-
-desktop-file-install \
-	--add-category="Game" \
-	--remove-category="%{oname}" \
-	--remove-key="Encoding" \
-	--dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*
 
 # (tpg) useless stuff
 rm -rf %{buildroot}%{_datadir}/%{name}/bin
