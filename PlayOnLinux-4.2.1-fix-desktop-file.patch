@@ -12,4 +12,4 @@ diff -rupN playonlinux.old/etc/PlayOnLinux.desktop playonlinux/etc/PlayOnLinux.d
  Exec=playonlinux
  Icon=/usr/share/playonlinux/etc/playonlinux.png
 -Categories=Application;Game
-+Categories=Game;
++Categories=Game;Emulator;
