@@ -2,7 +2,7 @@ Index: mainwindow.py
 ===================================================================
 --- mainwindow.py
 +++ mainwindow.py	2018-03-18 23:17:10.587952703 +0100
-@@ -1217,28 +1217,6 @@
+@@ -1220,28 +1220,6 @@
              wx.MessageBox(_("{0} is not supposed to be run as root. Sorry").format(os.environ["APPLICATION_TITLE"]),_("Error"))
              os._exit(0)
  
