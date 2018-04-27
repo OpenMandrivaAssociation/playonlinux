@@ -2,17 +2,18 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	4.2.5
-Release:	2
+Version:	4.2.12
+Release:	1
 License:	GPLv3+
 Group:		Games/Other
 Url:		http://www.playonlinux.com
 Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source1:	playonlinux.bin
 Patch0:		%{oname}_4.0.17-disable-update.patch
-Patch1:		%{oname}-4.1.6-disable-GL-checks.patch
+Patch1:		%{oname}-4.2.12-disable-GL-checks.patch
 Patch2:		%{oname}-4.1.6-use-systemwide-locales-path.patch
-Patch3:		%{oname}-4.2.1-fix-desktop-file.patch
+# Do we still need patch3? Disable for now. Feel free to reenable it and edit it to fix patching process.
+#Patch3:		%{oname}-4.2.1-fix-desktop-file.patch
 # for ar
 Requires:	binutils
 Requires:	cabextract
@@ -54,9 +55,9 @@ the free software.
 %prep
 %setup -q -n %{name}
 %patch0 -p1
-%patch1 -p1
+%patch1 -p0
 %patch2 -p1
-%patch3 -p1
+#patch3 -p1
 
 %build
 
