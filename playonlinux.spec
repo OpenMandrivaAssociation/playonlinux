@@ -2,12 +2,13 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	4.2.12
+Version:	4.3.3
 Release:	1
 License:	GPLv3+
 Group:		Games/Other
 Url:		http://www.playonlinux.com
-Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
+#Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
+Source0:  http://repository.playonlinux.com/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source1:	playonlinux.bin
 Patch0:		%{oname}_4.0.17-disable-update.patch
 Patch1:		%{oname}-4.2.12-disable-GL-checks.patch
@@ -25,10 +26,10 @@ Requires:	lzma
 Requires:	p7zip
 Requires:	unzip
 Requires:	wget
-Requires:	wine-bin
 Requires:	wxPythonGTK
 Requires:	xterm
 Requires:	curl
+Suggests:	wine-bin
 # used to extract icons for applications, otherwise the default icon is used
 Suggests:	icoutils >= 0.29
 BuildArch:	noarch
