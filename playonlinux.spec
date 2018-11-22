@@ -7,7 +7,8 @@ Release:	1
 License:	GPLv3+
 Group:		Games/Other
 Url:		http://www.playonlinux.com
-Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
+#Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
+Source0:  http://repository.playonlinux.com/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source1:	playonlinux.bin
 Patch0:		%{oname}_4.0.17-disable-update.patch
 Patch1:		%{oname}-4.2.12-disable-GL-checks.patch
