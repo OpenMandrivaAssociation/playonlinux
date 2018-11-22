@@ -26,10 +26,10 @@ Requires:	lzma
 Requires:	p7zip
 Requires:	unzip
 Requires:	wget
-Requires:	wine-bin
 Requires:	wxPythonGTK
 Requires:	xterm
 Requires:	curl
+Suggests:	wine-bin
 # used to extract icons for applications, otherwise the default icon is used
 Suggests:	icoutils >= 0.29
 BuildArch:	noarch
