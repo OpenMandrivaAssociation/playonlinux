@@ -1,0 +1,35 @@
+Index: lib/variables
+===================================================================
+--- lib/variables
++++ lib/variables	2018-12-27 02:02:05.439152009 +0100
+@@ -61,7 +61,7 @@
+ if [ ! "$NOGETTEXT" = "TRUE" ] || [ "$(POL_Config_pRead NOGETTEXT)" = "TRUE" ]
+ then
+ 
+-[ "$DEBIAN_PACKAGE" = "FALSE" ] && export TEXTDOMAINDIR="$PLAYONLINUX/lang/locale/"
++[ "$DEBIAN_PACKAGE" = "FALSE" ]
+ export TEXTDOMAIN="pol"
+ . gettext.sh
+ eval_gettext > /dev/null || eval_gettext() { printf "$@"; }
+Index: python/lib/lng.py
+===================================================================
+--- python/lib/lng.py
++++ python/lib/lng.py	2018-12-27 02:03:04.590332946 +0100
+@@ -15,7 +15,7 @@
+         if(os.environ["DEBIAN_PACKAGE"] == "TRUE"):
+             languages = os.listdir('/usr/share/locale')
+         else:
+-            languages = os.listdir(Variables.playonlinux_env+'/lang/locale')
++            languages = os.listdir('/usr/share/locale')
+ 
+         if(os.environ["POL_OS"] == "Mac"):
+             langid = wx.Locale().FindLanguageInfo(os.environ["RLANG"]).Language
+@@ -25,7 +25,7 @@
+         if(os.environ["DEBIAN_PACKAGE"] == "TRUE"):
+             localedir = "/usr/share/locale"
+         else:
+-            localedir = os.path.join(Variables.playonlinux_env, "lang/locale")
++            localedir = "/usr/share/locale"
+ 
+         domain = "pol"
+         mylocale = wx.Locale(langid)

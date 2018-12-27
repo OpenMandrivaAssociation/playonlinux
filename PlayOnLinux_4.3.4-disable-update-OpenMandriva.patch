@@ -1,0 +1,14 @@
+Index: python/mainwindow.py
+===================================================================
+--- python/mainwindow.py
++++ python/mainwindow.py	2018-12-27 01:48:54.496325985 +0100
+@@ -111,9 +111,6 @@
+             if (playonlinux.VersionLower(os.environ["VERSION"], self.WebVersion)):
+                 self.sendToStatusBar(_('An updated version of {0} is available').format(
+                     os.environ["APPLICATION_TITLE"]) + " (" + self.WebVersion + ")", False)
+-                if (os.environ["DEBIAN_PACKAGE"] == "FALSE"):
+-                    self.sendAlert(_('An updated version of {0} is available').format(
+-                        os.environ["APPLICATION_TITLE"]) + " (" + self.WebVersion + ")")
+                 os.environ["POL_UPTODATE"] = "FALSE"
+             else:
+                 self.Show = False
