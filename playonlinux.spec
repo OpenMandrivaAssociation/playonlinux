@@ -10,7 +10,7 @@ Url:		http://www.playonlinux.com
 #Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source0:  http://repository.playonlinux.com/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source1:	playonlinux.bin
-Patch0:		%{oname}_4.0.17-disable-update.patch
+#Patch0:		%{oname}_4.0.17-disable-update.patch
 Patch1:		%{oname}-4.2.12-disable-GL-checks.patch
 Patch2:		%{oname}-4.1.6-use-systemwide-locales-path.patch
 # Do we still need patch3? Disable for now. Feel free to reenable it and edit it to fix patching process.
