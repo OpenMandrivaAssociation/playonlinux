@@ -2,7 +2,7 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	4.3.3
+Version:	4.3.4
 Release:	1
 License:	GPLv3+
 Group:		Games/Other
@@ -10,9 +10,9 @@ Url:		http://www.playonlinux.com
 #Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source0:  http://repository.playonlinux.com/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source1:	playonlinux.bin
-Patch0:		%{oname}_4.0.17-disable-update.patch
-Patch1:		%{oname}-4.2.12-disable-GL-checks.patch
-Patch2:		%{oname}-4.1.6-use-systemwide-locales-path.patch
+#Patch0:		%{oname}_4.0.17-disable-update.patch
+#Patch1:		%{oname}-4.2.12-disable-GL-checks.patch
+#Patch2:		%{oname}-4.1.6-use-systemwide-locales-path.patch
 # Do we still need patch3? Disable for now. Feel free to reenable it and edit it to fix patching process.
 #Patch3:		%{oname}-4.2.1-fix-desktop-file.patch
 # for ar
@@ -22,16 +22,17 @@ Requires:	gettext
 Requires:	glxinfo
 Requires:	imagemagick
 Requires:	lzma
-# http://bugs.rosalinux.ru/show_bug.cgi?id=2208
 Requires:	p7zip
 Requires:	unzip
 Requires:	wget
 Requires:	wxPythonGTK
 Requires:	xterm
 Requires:	curl
-Suggests:	wine-bin
+Recommends:	wine-bin
 # used to extract icons for applications, otherwise the default icon is used
-Suggests:	icoutils >= 0.29
+Recommends:	icoutils >= 0.29
+#Not imported to cooker (yet)
+#Recommends: jq
 BuildArch:	noarch
 
 %description
@@ -55,9 +56,9 @@ the free software.
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1
-%patch1 -p0
-%patch2 -p1
+#patch0 -p1
+#patch1 -p0
+#patch2 -p1
 #patch3 -p1
 
 %build
