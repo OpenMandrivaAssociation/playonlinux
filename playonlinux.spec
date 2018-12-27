@@ -28,7 +28,7 @@ Requires:	wget
 Requires:	wxPythonGTK
 Requires:	xterm
 Requires:	curl
-Recommends::	wine-bin
+Recommends:	wine-bin
 # used to extract icons for applications, otherwise the default icon is used
 Recommends:	icoutils >= 0.29
 #Not imported to cooker (yet)
