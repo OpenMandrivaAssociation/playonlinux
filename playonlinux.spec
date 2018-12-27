@@ -2,7 +2,7 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	4.3.3
+Version:	4.3.4
 Release:	1
 License:	GPLv3+
 Group:		Games/Other
@@ -22,16 +22,17 @@ Requires:	gettext
 Requires:	glxinfo
 Requires:	imagemagick
 Requires:	lzma
-# http://bugs.rosalinux.ru/show_bug.cgi?id=2208
 Requires:	p7zip
 Requires:	unzip
 Requires:	wget
 Requires:	wxPythonGTK
 Requires:	xterm
 Requires:	curl
-Suggests:	wine-bin
+Recommends::	wine-bin
 # used to extract icons for applications, otherwise the default icon is used
-Suggests:	icoutils >= 0.29
+Recommends:	icoutils >= 0.29
+#Not imported to cooker (yet)
+#Recommends: jq
 BuildArch:	noarch
 
 %description
