@@ -12,7 +12,7 @@ Source0:  http://repository.playonlinux.com/%{oname}/%{version}/%{oname}_%{versi
 Source1:	playonlinux.bin
 Patch0:		%{oname}_4.3.4-disable-update-OpenMandriva.patch
 Patch1:		%{oname}_4.3.4-disable-GL-check-OpenMandriva.patch
-Patch2:		%{oname}_4.3.4-use-systemwide-locales-OpenMandriva.patch
+#Patch2:		%{oname}_4.3.4-use-systemwide-locales-OpenMandriva.patch
 # Do we still need patch3? Disable for now. Feel free to reenable it and edit it to fix patching process.
 #Patch3:		%{oname}-4.2.1-fix-desktop-file.patch
 # for ar
@@ -58,7 +58,7 @@ the free software.
 %setup -q -n %{name}
 %patch0 -p0
 %patch1 -p0
-%patch2 -p0
+#patch2 -p0
 #patch3 -p1
 
 %build
