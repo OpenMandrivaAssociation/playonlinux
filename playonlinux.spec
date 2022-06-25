@@ -16,6 +16,15 @@ Patch1:		%{oname}_4.3.4-disable-GL-check-OpenMandriva.patch
 # Do we still need patch3? Disable for now. Feel free to reenable it and edit it to fix patching process.
 #Patch3:		%{oname}-4.2.1-fix-desktop-file.patch
 # for ar
+Patch4:         https://github.com/PlayOnLinux/POL-POM-4/compare/4.4...a8fe4bb.patch#/playonlinux-4.4-gita8fe4bb.patch
+
+BuildRequires:  pkgconfig(gl)
+BuildRequires:  pkgconfig(x11)
+BuildRequires:  pkgconfig(python)
+# Not available yet
+#BuildRequires:  python-natsort
+BuildRequires:  python-wxpython4
+
 Requires:	binutils
 Requires:	cabextract
 Requires:	gettext
@@ -25,7 +34,9 @@ Requires:	lzma
 Requires:	p7zip
 Requires:	unzip
 Requires:	wget
-Requires:	wxPythonGTK
+Requires: python
+Requires: python-wxpython4
+#Requires:	wxPythonGTK
 Requires:	xterm
 Requires:	curl
 Recommends:	wine-bin
