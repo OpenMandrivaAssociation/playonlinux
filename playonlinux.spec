@@ -22,7 +22,7 @@ Requires:	gettext
 Requires:	glxinfo
 Requires:	imagemagick
 Requires:	lzma
-Requires:	p7zip
+Requires:	7zip
 Requires:	unzip
 Requires:	wget
 Requires:	wxPythonGTK
@@ -55,11 +55,7 @@ the free software.
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q -n %{name}
-%patch0 -p0
-%patch1 -p0
-%patch2 -p0
-#patch3 -p1
+%autosetup -p0 -n %{name}
 
 %build
 
