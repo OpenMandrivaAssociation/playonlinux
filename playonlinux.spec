@@ -25,7 +25,6 @@ Requires:	lzma
 Requires:	7zip
 Requires:	unzip
 Requires:	wget
-Requires:	wxPythonGTK
 Requires:	xterm
 Requires:	curl
 Recommends:	wine-bin
