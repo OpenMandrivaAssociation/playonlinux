@@ -1,8 +1,7 @@
-Index: lib/variables
-===================================================================
---- lib/variables
-+++ lib/variables	2018-12-27 02:02:05.439152009 +0100
-@@ -61,7 +61,7 @@
+diff -up lib/variables.3~ lib/variables
+--- lib/variables.3~	2020-05-17 16:05:33.000000000 +0200
++++ lib/variables	2024-10-02 01:25:14.495283119 +0200
+@@ -61,7 +61,7 @@ export WGETRC="$POL_USER_ROOT/configurat
  if [ ! "$NOGETTEXT" = "TRUE" ] || [ "$(POL_Config_pRead NOGETTEXT)" = "TRUE" ]
  then
  
@@ -11,25 +10,27 @@ Index: lib/variables
  export TEXTDOMAIN="pol"
  . gettext.sh
  eval_gettext > /dev/null || eval_gettext() { printf "$@"; }
-Index: python/lib/lng.py
-===================================================================
---- python/lib/lng.py
-+++ python/lib/lng.py	2018-12-27 02:03:04.590332946 +0100
-@@ -15,7 +15,7 @@
-         if(os.environ["DEBIAN_PACKAGE"] == "TRUE"):
+diff -up python/lib/lng.py.3~ python/lib/lng.py
+--- python/lib/lng.py.3~	2020-05-17 16:05:33.000000000 +0200
++++ python/lib/lng.py	2024-10-02 01:26:17.836000170 +0200
+@@ -12,7 +12,7 @@ class Lang(object):
+ 
+ class iLang(object):
+     def __init__(self):
+-        if(os.environ["DEBIAN_PACKAGE"] == "TRUE"):
++        if True:
              languages = os.listdir('/usr/share/locale')
          else:
--            languages = os.listdir(Variables.playonlinux_env+'/lang/locale')
-+            languages = os.listdir('/usr/share/locale')
- 
-         if(os.environ["POL_OS"] == "Mac"):
-             langid = wx.Locale().FindLanguageInfo(os.environ["RLANG"]).Language
-@@ -25,7 +25,7 @@
-         if(os.environ["DEBIAN_PACKAGE"] == "TRUE"):
-             localedir = "/usr/share/locale"
+             languages = os.listdir(Variables.playonlinux_env+'/lang/locale')
+@@ -27,10 +27,7 @@ class iLang(object):
          else:
+             langid = wx.LANGUAGE_DEFAULT
+ 
+-        if(os.environ["DEBIAN_PACKAGE"] == "TRUE"):
+-            localedir = "/usr/share/locale"
+-        else:
 -            localedir = os.path.join(Variables.playonlinux_env, "lang/locale")
-+            localedir = "/usr/share/locale"
++        localedir = "/usr/share/locale"
  
          domain = "pol"
          mylocale = wx.Locale(langid)

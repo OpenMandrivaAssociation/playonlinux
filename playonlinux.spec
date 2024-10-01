@@ -2,12 +2,12 @@
 
 Summary:	Play your Windows games on Linux
 Name:		playonlinux
-Version:	4.3.4
-Release:	2
+Version:	4.4
+Release:	1
 License:	GPLv3+
 Group:		Games/Other
 Url:		http://www.playonlinux.com
-#Source0:	http://www.playonlinux.com/script_files/%{oname}/%{version}/%{oname}_%{version}.tar.gz
+#Source0:	https://github.com/PlayOnLinux/POL-POM-4/archive/refs/tags/%{version}.tar.gz
 Source0:  http://repository.playonlinux.com/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source1:	playonlinux.bin
 Patch0:		%{oname}_4.3.4-disable-update-OpenMandriva.patch
