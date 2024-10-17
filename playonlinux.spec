@@ -6,7 +6,7 @@ Version:	4.4
 Release:	1
 License:	GPLv3+
 Group:		Games/Other
-Url:		http://www.playonlinux.com
+Url:		https://www.playonlinux.com
 #Source0:	https://github.com/PlayOnLinux/POL-POM-4/archive/refs/tags/%{version}.tar.gz
 Source0:  http://repository.playonlinux.com/%{oname}/%{version}/%{oname}_%{version}.tar.gz
 Source1:	playonlinux.bin
